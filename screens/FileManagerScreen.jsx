@@ -37,8 +37,8 @@ const FileManagerScreen = () => {
       'https://filestoreserver.onrender.com/aws/fetch-content',
       {
         currentPath: '/',
-        accessKeyId: 'AKIAQZFG5FCE22H4LCE6',
-        secretAccessKey: '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',
+        accessKeyId: '',
+        secretAccessKey: '',
         region: 'ap-south-1',
         bucketName: 'aarjavharshit',
       },
