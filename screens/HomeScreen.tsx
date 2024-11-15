@@ -7,6 +7,7 @@ import {
   Animated,
   Easing,
   StyleSheet,
+  Button,
 } from 'react-native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
@@ -95,6 +96,22 @@ const HomeScreen = () => {
           </View>
         );
       })}
+      <Button
+        title="Animation screen"
+        onPress={() => navigation.navigate('Animation')}
+      />
+      <Button
+        title="Swipe Animation screen"
+        onPress={() => navigation.navigate('SwipeAnimation')}
+      />
+      <Button
+        title="Pinch Gesture"
+        onPress={() => navigation.navigate('PinchAnimation')}
+      />
+      <Button
+        title="Tap Gesture"
+        onPress={() => navigation.navigate('TapAnimation')}
+      />
     </View>
   );
 };

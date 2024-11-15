@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+import 'react-native-url-polyfill/auto';
 import {
   View,
   Text,
@@ -11,6 +13,8 @@ import React, {useEffect, useState} from 'react';
 import {BlobServiceClient} from '@azure/storage-blob';
 import * as DocumentPicker from 'react-native-document-picker';
 import 'core-js/features/symbol/async-iterator';
+import {Buffer} from 'buffer';
+import RNFS from 'react-native-fs';
 
 const AzureFileManager = () => {
   const [containers, setContainers] = useState([]);
@@ -18,8 +22,10 @@ const AzureFileManager = () => {
   const [selectedFile, setSelectedFile] = useState([]);
   const [containerNameInput, setContainerNameInput] = useState('');
   const [folder, setFolder] = useState('');
+  const [folderPath, setFolderPath] = useState('');
+
   const blobSasUrl =
-    'https://aarjavjain.blob.core.windows.net/?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-11-13T20:20:00Z&st=2024-11-13T12:20:00Z&spr=https&sig=AAXeIeZ4ruK272joRh0omXrLE7Z%2Bb0hCCIdoPxH0RDU%3D';
+    'https://aarjavjain.blob.core.windows.net/?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-11-14T14:35:36Z&st=2024-11-14T06:35:36Z&spr=https&sig=xUtGrDBYEEkVHazSRfzsc7urV6slqfVZERsDQXESPU8%3D';
   const blobServiceClient = new BlobServiceClient(blobSasUrl);
 
   // Append current time to make container name unique
@@ -123,9 +129,13 @@ const AzureFileManager = () => {
         blobServiceClient.getContainerClient(containerName);
 
       // Iterate over the files and create promises for each upload
-      const promises = files.map(file => {
+      const promises = files.map(async file => {
+        const filePath = file.uri;
+        const data = await RNFS.readFile(filePath, 'base64');
+        console.log('55555', data);
+        const buffer = Buffer.from(data, 'base64');
         const blockBlobClient = containerClient.getBlockBlobClient(file.name);
-        return blockBlobClient.uploadData(file, {
+        return blockBlobClient.upload(buffer, buffer.byteLength, {
           blobHTTPHeaders: {blobContentType: file.type}, // Set content type if needed
         });
       });
@@ -184,38 +194,40 @@ const AzureFileManager = () => {
         onPress={() => createFolder(selectedContainer, folder)}
       />
       <Text style={styles.txt}>Containers:</Text>
-      <ScrollView>
-        {selectedContainer ? (
-          <View>
-            <Text style={styles.txt}>{`📂 ${selectedContainer}`}</Text>
-            {selectedFile.map((file, index) => (
+      <View style={{height: '50%', width: '100%'}}>
+        <ScrollView>
+          {selectedContainer ? (
+            <View>
+              <Text style={styles.txt}>{`📂 ${selectedContainer}`}</Text>
+              {selectedFile.map((file, index) => (
+                <View key={index}>
+                  <Text style={styles.txt}>
+                    {file.endsWith('/')
+                      ? `📂 ${file.slice(0, -1)}`
+                      : `📃 ${file}`}
+                  </Text>
+                </View>
+              ))}
+              <Button title="Back" onPress={() => setSelectedContainer(null)} />
+            </View>
+          ) : containers.length > 0 ? (
+            containers.map((item, index) => (
               <View key={index}>
-                <Text style={styles.txt}>
-                  {file.endsWith('/')
-                    ? `📂 ${file.slice(0, -1)}`
-                    : `📃 ${file}`}
+                <Text
+                  style={styles.txt}
+                  onPress={() => {
+                    listFiles(item);
+                    setSelectedContainer(item);
+                  }}>
+                  {`📂 ${item}`}
                 </Text>
               </View>
-            ))}
-            <Button title="Back" onPress={() => setSelectedContainer(null)} />
-          </View>
-        ) : containers.length > 0 ? (
-          containers.map((item, index) => (
-            <View key={index}>
-              <Text
-                style={styles.txt}
-                onPress={() => {
-                  listFiles(item);
-                  setSelectedContainer(item);
-                }}>
-                {`📂 ${item}`}
-              </Text>
-            </View>
-          ))
-        ) : (
-          <Text style={styles.txt}>No containers present</Text>
-        )}
-      </ScrollView>
+            ))
+          ) : (
+            <Text style={styles.txt}>No containers present</Text>
+          )}
+        </ScrollView>
+      </View>
     </View>
   );
 };
