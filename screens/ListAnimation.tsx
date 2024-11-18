@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import React, {useRef, useState} from 'react';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
@@ -30,7 +30,6 @@ const ListAnimation = () => {
     newToggledStates[index] = !newToggledStates[index];
     setToggledStates(newToggledStates);
 
-    // Animate the line's position
     sharedValuesRef.current[index].value = withTiming(
       newToggledStates[index] ? 35 : 0,
       {duration: 500},
@@ -55,10 +54,9 @@ const ListAnimation = () => {
           transform: [{translateX: translateX.value}],
           width: withTiming(toggledStates[index] ? textWidths[index] : 15, {
             duration: 300,
-          }), // Animate width
+          }),
         }));
 
-        // Animate the scale when the item is toggled
         const rTextStyle = useAnimatedStyle(() => ({
           transform: [
             {
@@ -85,12 +83,10 @@ const ListAnimation = () => {
         return (
           <GestureDetector key={index} gesture={tap}>
             <Animated.View style={styles.container}>
-              {/* Line with conditional color */}
               <Animated.View
                 style={[styles.line, rLineStyle, {backgroundColor: lineColor}]}
               />
 
-              {/* Checkmark with scaling animation */}
               {toggledStates[index] && (
                 <Animated.Text
                   style={[styles.text, styles.textPosition, rTextStyle]}>
@@ -98,7 +94,6 @@ const ListAnimation = () => {
                 </Animated.Text>
               )}
 
-              {/* Text with conditional color */}
               <Animated.Text
                 style={[styles.text, {color: textColor}]}
                 onLayout={event =>
@@ -143,6 +138,7 @@ const styles = StyleSheet.create({
     padding: 15,
     alignItems: 'center',
     position: 'relative',
+    margin: 20,
   },
   image: {
     position: 'absolute',

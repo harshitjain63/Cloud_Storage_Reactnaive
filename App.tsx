@@ -12,6 +12,7 @@ import SwipeAnimation from './screens/SwipeAnimation';
 import PinchGesture from './screens/PinchGesture';
 import TapAnimationScreen from './screens/TapAnimationScreen';
 import ListAnimation from './screens/ListAnimation';
+import TabAnimation from './screens/TabAnimation';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,7 @@ export type RootStackParamList = {
   PinchAnimation: undefined;
   TapAnimation: undefined;
   ListAnimation: undefined;
+  TabAnimation: undefined;
 };
 
 const App = () => {
@@ -84,6 +86,11 @@ const App = () => {
             name="ListAnimation"
             component={ListAnimation}
             options={{title: 'List Animation Screen'}}
+          />
+          <Stack.Screen
+            name="TabAnimation"
+            component={TabAnimation}
+            options={{title: 'Tab Animation Screen'}}
           />
         </Stack.Navigator>
       </NavigationContainer>

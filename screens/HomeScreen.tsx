@@ -116,6 +116,10 @@ const HomeScreen = () => {
         title="List Animation"
         onPress={() => navigation.navigate('ListAnimation')}
       />
+      <Button
+        title="Tab Animation"
+        onPress={() => navigation.navigate('TabAnimation')}
+      />
     </View>
   );
 };
