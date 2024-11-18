@@ -11,6 +11,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import SwipeAnimation from './screens/SwipeAnimation';
 import PinchGesture from './screens/PinchGesture';
 import TapAnimationScreen from './screens/TapAnimationScreen';
+import ListAnimation from './screens/ListAnimation';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ export type RootStackParamList = {
   SwipeAnimation: undefined;
   PinchAnimation: undefined;
   TapAnimation: undefined;
+  ListAnimation: undefined;
 };
 
 const App = () => {
@@ -77,6 +79,11 @@ const App = () => {
             name="TapAnimation"
             component={TapAnimationScreen}
             options={{title: 'TapGesture Animation Screen'}}
+          />
+          <Stack.Screen
+            name="ListAnimation"
+            component={ListAnimation}
+            options={{title: 'List Animation Screen'}}
           />
         </Stack.Navigator>
       </NavigationContainer>

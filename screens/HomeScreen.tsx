@@ -112,6 +112,10 @@ const HomeScreen = () => {
         title="Tap Gesture"
         onPress={() => navigation.navigate('TapAnimation')}
       />
+      <Button
+        title="List Animation"
+        onPress={() => navigation.navigate('ListAnimation')}
+      />
     </View>
   );
 };
