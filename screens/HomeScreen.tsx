@@ -120,6 +120,10 @@ const HomeScreen = () => {
         title="Tab Animation"
         onPress={() => navigation.navigate('TabAnimation')}
       />
+      <Button
+        title="Swipeup Animation"
+        onPress={() => navigation.navigate('SwipeupAnimation')}
+      />
     </View>
   );
 };

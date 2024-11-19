@@ -1,10 +1,10 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
-import Page from '../components/Page';
 import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
 } from 'react-native-reanimated';
+import Page from '../components/flatlistanimation/Page';
 
 const Words = ['Hello', 'how', 'are', 'you', 'my', 'friend'];
 
